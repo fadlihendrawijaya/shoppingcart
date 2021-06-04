@@ -1,7 +1,7 @@
 <?php
-// We need to use sessions, so you should always start sessions using the below code.
+// Perlu menggunakan sesi, jadi harus selalu memulai sesi menggunakan kode
 session_start();
-// If the user is not logged in redirect to the login page...
+// Jika pengguna tidak login akan otomomatis ke halaman login
 if (!isset($_SESSION['loggedin'])) {
     header('Location: ../login/.');
     exit;
@@ -15,7 +15,7 @@ if ($_SESSION['role'] == 'costumer') {
 include '../functions.php';
 $pdo = pdo_connect_mysql();
 $msg = '';
-// Check that the products ID exists
+// memeriksa apakah ID produk ada
 if (isset($_GET['id'])) {
     // Select the record that is going to be deleted
     $stmt = $pdo->prepare('SELECT * FROM products WHERE id = ?');
@@ -24,15 +24,14 @@ if (isset($_GET['id'])) {
     if (!$products) {
         exit('Products doesn\'t exist with that ID!');
     }
-    // Make sure the user confirms beore deletion
-    if (isset($_GET['confirm'])) {
+    // untuk memastikan pengguna jika menghapus dan mengkonfirmasikan
         if ($_GET['confirm'] == 'yes') {
-            // User clicked the "Yes" button, delete record
+            // jika klik yes maka akan menjalankan
             $stmt = $pdo->prepare('DELETE FROM products WHERE id = ?');
             $stmt->execute([$_GET['id']]);
             $msg = 'You have deleted the Products!';
         } else {
-            // User clicked the "No" button, redirect them back to the read page
+            // jika klik no maka tidak akan menjalankan dan kembali ke halaman sebelumnya
             header('Location: index.php');
             exit;
         }
