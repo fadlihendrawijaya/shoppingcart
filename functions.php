@@ -1,22 +1,22 @@
 <?php
 function pdo_connect_mysql()
 {
-  // Update the details below with your MySQL details
+  // Memperbarui detail dengan myqsl
   $DATABASE_HOST = 'localhost';
-  $DATABASE_USER = 'root';
+  $DATABASE_USER = 'root';i
   $DATABASE_PASS = '';
   $DATABASE_NAME = 'shoppingcart';
   try {
     return new PDO('mysql:host=' . $DATABASE_HOST . ';dbname=' . $DATABASE_NAME . ';charset=utf8', $DATABASE_USER, $DATABASE_PASS);
   } catch (PDOException $exception) {
-    // If there is an error with the connection, stop the script and display the error.
+    // Jika ada kesalahan dengan koneksi, lalu akan menampilkan kesalahannya.
     exit('Failed to connect to database!');
   }
 }
-// Template header, this will showing to costumer
+// Fungsi template ini akan ditampilkan di header pelanggan
 function template_header($title)
 {
-  // Get the amount of items in the shopping cart
+  // untuk mendapatkan jumlah item
   $num_items_in_cart = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
   echo <<<EOT
 <!DOCTYPE html>
@@ -55,7 +55,7 @@ function template_header($title)
         <main>
 EOT;
 }
-// Template footer
+// Bagian footer 
 function template_footer()
 {
   $year = date('Y');
@@ -72,7 +72,7 @@ function template_footer()
 EOT;
 }
 
-//Admin template header
+//Admin bagian header
 function admin_template_header($title)
 {
   echo <<<EOT
@@ -107,7 +107,7 @@ function admin_template_header($title)
 EOT;
 }
 
-// this function return total products in database
+// Fungsi untuk mengembalikan nilai total products
 function count_total_products()
 {
   $pdo = pdo_connect_mysql();
