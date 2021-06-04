@@ -1,8 +1,8 @@
 <?php
 
-// We need to use sessions, so you should always start sessions using the below code.
+// Perlu menggunakan sesi, jadi harus selalu memulai sesi menggunakan kode
 session_start();
-// If the user is not logged in redirect to the login page...
+// Jika pengguna tidak login akan otomomatis ke halaman login
 if (!isset($_SESSION['loggedin'])) {
     header('Location: ../login/.');
     exit;
@@ -16,10 +16,10 @@ if ($_SESSION['role'] == 'costumer') {
 include '../functions.php';
 $pdo = pdo_connect_mysql();
 $msg = '';
-// Check if the products id exists, for example update.php?id=1 will get the contact with the id of 1
+// Memeriksa apakah id produk ada, update.php?id=1 akan mendapatkan kontak dengan id 1
 if (isset($_GET['id'])) {
     if (!empty($_POST)) {
-        // This part is similar to the create.php, but instead we update a record and not insert
+        // Bagian ini mirip dengan create.php, tetapi memperbarui data dan tidak menyisipkan
         $id = isset($_POST['id']) ? $_POST['id'] : NULL;
         $name = isset($_POST['name']) ? $_POST['name'] : '';
         $desc = isset($_POST['desc']) ? $_POST['desc'] : '';
@@ -28,7 +28,7 @@ if (isset($_GET['id'])) {
         $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : '';
         $img = isset($_POST['img']) ? $_POST['img'] : '';
         $dataadded = isset($_POST['data_added']) ? $_POST['data_added'] : date('Y-m-d H:i:s');
-        // Update the record
+        // Menjalankan update
         $stmt = $pdo->prepare('CALL update_product(?,?,?,?,?,?,?,?)');
 
         $msg = 'Updated Successfully!';
@@ -39,7 +39,7 @@ if (isset($_GET['id'])) {
             $msg = "Unable to update product, please try again!";
         }
     }
-    // Get the products from the products table
+    // Mendapatlan data dari tabel produk
     $stmt = $pdo->prepare('SELECT * FROM products WHERE id = ?');
     $stmt->execute([$_GET['id']]);
     $products = $stmt->fetch(PDO::FETCH_ASSOC);
