@@ -1,34 +1,34 @@
 <?php
-// We need to use sessions, so you should always start sessions using the below code.
+// Perlu menggunakan sesi, jadi harus selalu memulai sesi menggunakan kode
 session_start();
-// If the user is not logged in redirect to the login page...
+// Jika pengguna tidak login akan otomomatis ke halaman login
 if (!isset($_SESSION['loggedin'])) {
     header('Location: ../login/.');
     exit;
 }
-// prevent user with role costumer to access this page
+// untuk menampilkan lokasi customer 
 if ($_SESSION['role'] == 'costumer') {
     header('Location: ../.');
     exit;
 }
 
 include '../functions.php';
-// Connect to MySQL database
+// Koneksi ke database
 $pdo = pdo_connect_mysql();
-// Get the page via GET request (URL param: page), if non exists default the page to 1
+// menampikan halaman menggunakan perintah GET
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
-// Number of records to show on each page
+// menampilkan jumlah di setiap halaman
 $records_per_page = 5;
 
-// Prepare the SQL statement and get records from our products table, LIMIT will determine the page
+// database dari produk akan menampilkan di halaman
 $stmt = $pdo->prepare('SELECT * FROM products ORDER BY id LIMIT :current_page, :record_per_page');
 $stmt->bindValue(':current_page', ($page - 1) * $records_per_page, PDO::PARAM_INT);
 $stmt->bindValue(':record_per_page', $records_per_page, PDO::PARAM_INT);
 $stmt->execute();
-// Fetch the records so we can display them in our template.
+// mengambil data sehingga ditampilkan di tamplate
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Get the total number of products, this is so we can determine whether there should be a next and previous button
+// Untuk mendapatkan jumlah total produk, agar dapat menentukan apakah harus ada tombol berikutnya dan sebelumnya
 $num_products = $pdo->query('SELECT COUNT(*) FROM products')->fetchColumn();
 ?>
 
