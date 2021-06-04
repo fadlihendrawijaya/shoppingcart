@@ -1,18 +1,18 @@
 <?php
-// Check to make sure the id parameter is specified in the URL
+// Memeriksa untuk memastikan parameter id ditentukan dalam URL
 if (isset($_GET['id'])) {
-  // Prepare statement and execute, prevents SQL injection
+  // Menjalankan dan mencegah injeksi SQL
   $stmt = $pdo->prepare('CALL tampilkan_produk(?)');
   $stmt->execute([$_GET['id']]);
-  // Fetch the product from the database and return the result as an Array
+  // Mengambil produk dari database dan mengembalikan hasil sebagai Array
   $product = $stmt->fetch(PDO::FETCH_ASSOC);
-  // Check if the product exists (array is not empty)
+  // Memeriksa apakah produk ada (array tidak kosong)
   if (!$product) {
-    // Simple error to display if the id for the product doesn't exists (array is empty)
+    // Jika ada kesalahan akan ditampilkan jika id untuk produk tidak ada (array kosong)
     exit('Product does not exist!');
   }
 } else {
-  // Simple error to display if the id wasn't specified
+  // Jika ada kesalahan akan  ditampilkan jika id tidak ditentukan
   exit('Product does not exist!');
 }
 ?>
