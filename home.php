@@ -1,5 +1,5 @@
 <?php
-// Get the 4 most recently added products using view recently_added
+// Menampilkan produk terbaru yang ditambahkan menggunakan tampilan recent_added
 $stmt = $pdo->prepare('SELECT * FROM `recently_added`');
 $stmt->execute();
 $recently_added_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
