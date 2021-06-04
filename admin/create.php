@@ -1,8 +1,7 @@
 <?php
-
-// We need to use sessions, so you should always start sessions using the below code.
+// Perlu menggunakan sesi, jadi harus selalu memulai sesi menggunakan kode
 session_start();
-// If the user is not logged in redirect to the login page...
+// Jika pengguna tidak login akan otomomatis ke halaman login
 if (!isset($_SESSION['loggedin'])) {
     header('Location: ../login/.');
     exit;
@@ -16,12 +15,12 @@ if ($_SESSION['role'] == 'costumer') {
 include '../functions.php';
 $pdo = pdo_connect_mysql();
 $msg = '';
-// Check if POST data is not empty
+// memeriksa apakah data post tidak kosong 
 if (!empty($_POST)) {
-    // Post data not empty insert a new record
-    // Set-up the variables that are going to be inserted, we must check if the POST variables exist if not we can default them to blank
+    // data post tidak boleh kosong kemudian akan memulai record baru
+    // Mengatur variabel yang akan diinputkan, kemudian memeriksa apakah variabel POST ada jika tidak, bisa mengosongkannya secara default
     $id = isset($_POST['id']) && !empty($_POST['id']) && $_POST['id'] != 'auto' ? $_POST['id'] : NULL;
-    // Check if POST variable "name" exists, if not default the value to blank, basically the same for all variables
+    // Memeriksa variabel POST "nama" ada, jika tidak niali akan default, sama untuk semua variabel
     $name = isset($_POST['name']) ? $_POST['name'] : '';
     $desc = isset($_POST['desc']) ? $_POST['desc'] : '';
     $price = isset($_POST['price']) ? $_POST['price'] : '';
@@ -29,10 +28,10 @@ if (!empty($_POST)) {
     $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : '';
     $img = isset($_POST['img']) ? $_POST['img'] : '';
     $dataadded = isset($_POST['data_added']) ? $_POST['data_added'] : date('Y-m-d H:i:s');
-    // Insert new record into the contacts table
+    // Manginputkan data baru ke dalam tabel kontak
     $stmt = $pdo->prepare('CALL insert_new_product(?, ?, ?, ?, ?, ?, ?, ?)');
 
-    // Output message
+    // Menampilkan pesan
     $msg = 'Product Added Successfully!';
 
     try {
