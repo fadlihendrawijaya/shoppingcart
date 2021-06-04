@@ -1,15 +1,15 @@
 <?php
-// The amounts of products to show on each page
+// menampilkan jumlah produk di setiap halaman
 $num_products_on_each_page = 8;
-// The current page, in the URL this will appear as index.php?page=products&p=1, index.php?page=products&p=2, etc...
+// Halaman di URL akan muncul sebagai index.php?page=products&p=1, index.php?page=products&p=2, dll...
 $current_page = isset($_GET['p']) && is_numeric($_GET['p']) ? (int)$_GET['p'] : 1;
-// Select products ordered by the date added
+// Pilih produk yang dipesan berdasarkan tanggal ditambahkan
 $stmt = $pdo->prepare('SELECT * FROM products ORDER BY date_added DESC LIMIT ?,?');
-// bindValue will allow us to use integer in the SQL statement, we need to use for LIMIT
+// bindValue untuk menggunakan integer dalam mySQL, kita perlu menggunakan untuk LIMIT
 $stmt->bindValue(1, ($current_page - 1) * $num_products_on_each_page, PDO::PARAM_INT);
 $stmt->bindValue(2, $num_products_on_each_page, PDO::PARAM_INT);
 $stmt->execute();
-// Fetch the products from the database and return the result as an Array
+// Jika mengambil dari database kemudian akan dikembalikan hasilnya menggunakan Array
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <?= template_header('Products') ?>
